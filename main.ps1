@@ -22,6 +22,15 @@ function Add-PowershellProfile {
 
     # Add the minimizeToNotificationArea property to the root of the settings
     $settings | Add-Member -NotePropertyName minimizeToNotificationArea -NotePropertyValue $true -Force
+    
+    # Add font name for oh-my-posh further installation and customization
+    $defaults = @{
+        font = @{
+            face = "MesloLGM Nerd Font"
+        }
+    }
+    $settings.profiles.defaults = $defaults
+
     # Set default profile
     $settings.defaultProfile = $pwshProfile.guid
 
@@ -33,9 +42,9 @@ function Add-PowershellProfile {
 
 winget install --exact --id Microsoft.PowerShell.Preview
 Add-PowershellProfile
-$env:Path += ";C:\Program Files\PowerShell\7-preview\pwsh.exe"
-$scriptPath = "./commands.ps1"
-# Start PowerShell 7 Preview in elevated mode
-Start-Process -FilePath pwsh -ArgumentList "-NoExit -File `"$scriptPath`"" -Verb RunAs
+# $env:Path += ";C:\Program Files\PowerShell\7-preview\pwsh.exe"
+# $scriptPath = "./commands.ps1"
+# # Start PowerShell 7 Preview in elevated mode
+# Start-Process -FilePath pwsh -ArgumentList "-NoExit -File `"$scriptPath`"" -Verb RunAs
 
 
