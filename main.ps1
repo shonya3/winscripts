@@ -42,9 +42,9 @@ function Add-PowershellProfile {
 
 winget install --exact --id Microsoft.PowerShell.Preview
 Add-PowershellProfile
-# $env:Path += ";C:\Program Files\PowerShell\7-preview\pwsh.exe"
-# $scriptPath = "./commands.ps1"
-# # Start PowerShell 7 Preview in elevated mode
-# Start-Process -FilePath pwsh -ArgumentList "-NoExit -File `"$scriptPath`"" -Verb RunAs
+$env:Path += ";C:\Program Files\PowerShell\7-preview\pwsh.exe"
+$scriptPath = "./commands.ps1"
+# Start PowerShell 7 Preview in elevated mode
+Start-Process -FilePath pwsh -ArgumentList "-NoExit -File `"$scriptPath`"" -Verb RunAs
 
 
