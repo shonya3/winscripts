@@ -1,11 +1,3 @@
-winget install --exact --id Microsoft.PowerShell.Preview
-Add-PowershellProfile
-$pwshPath = "C:\Program Files\PowerShell\7-preview\pwsh.exe"
-$scriptPath = "./commands.ps1"
-# Start PowerShell 7 Preview in elevated mode
-Start-Process -FilePath $pwshPath -ArgumentList "-NoExit -File `"$scriptPath`"" -Verb RunAs
-
-
 function Add-PowershellProfile {
     # Define the path to the settings.json file
     $settingsPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
@@ -37,3 +29,13 @@ function Add-PowershellProfile {
     $settings | ConvertTo-Json -Depth 32 | Out-File -FilePath $settingsPath -Encoding utf8
     Write-Host "New PowerShell Preview profile added to Windows Terminal settings."
 }
+
+
+winget install --exact --id Microsoft.PowerShell.Preview
+Add-PowershellProfile
+$env:Path += ";C:\Program Files\PowerShell\7-preview\pwsh.exe"
+$scriptPath = "./commands.ps1"
+# Start PowerShell 7 Preview in elevated mode
+Start-Process -FilePath pwsh -ArgumentList "-NoExit -File `"$scriptPath`"" -Verb RunAs
+
+
