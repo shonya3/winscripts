@@ -21,15 +21,19 @@ function Add-PowershellProfile {
     }
 
     # Add the minimizeToNotificationArea property to the root of the settings
-    $settings | Add-Member -NotePropertyName minimizeToNotificationArea -NotePropertyValue $true -Force
+    $settings | Add-Member -NotePropertyName "minimizeToNotificationArea" -NotePropertyValue $true -Force
     
     # Add font name for oh-my-posh further installation and customization
-    $defaults = @{
-        font = @{
-            face = "MesloLGM Nerd Font"
-        }
+    $FONT_FACE = "MesloLGM Nerd Font"
+    if(-NOT $settings.profiles.defaults.font) {
+        $font = @{face = $FONT_FACE}
+        $settings.profiles.defaults | Add-Member -NotePropertyName "font" -NotePropertyValue $font
+    } else {
+        $settings.profiles.defaults.font | Add-Member -NotePropertyName "face" -NotePropertyValue $FONT_FACE -Force
     }
-    $settings.profiles.defaults = $defaults
+
+    
+
 
     # Set default profile
     $settings.defaultProfile = $pwshProfile.guid
