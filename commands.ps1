@@ -51,7 +51,6 @@ function Add-MonaspaceFonts {
     Write-Output "Now you can set one of them in VS Code"
 }
 
-Add-MonaspaceFonts
 # configure oh-my-posh
 oh-my-posh font install Meslo
 New-Item -Path $PROFILE -Type File -Force
@@ -84,6 +83,8 @@ $authStatus = gh auth status
 if(-Not $authStatus){
     gh auth login
 }
+
+Add-MonaspaceFonts
 
 Set-Location "$env:USERPROFILE\Desktop"
 git clone https://github.com/shonya3/divicards.git
