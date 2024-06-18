@@ -8,6 +8,11 @@ winget install --exact --id OpenJS.NodeJS --silent
 winget install --exact --id Git.Git 
 winget install --exact --id pnpm.pnpm
 winget install --exact --id Rustlang.Rustup
+winget install --exact --id Google.Chrome --silent
+winget install --exact --id Mozilla.Firefox --silent
+winget install --exact --id VideoLAN.VLC 
+winget install --exact --id Rustlang.Rustup
+winget install --exact --id qBittorrent.qBittorrent.Beta
 
 # git global config
 $gitUsername = Read-Host "Git config. Enter Git username" | ForEach-Object { $_.Trim() }
@@ -25,12 +30,5 @@ $authStatus = gh auth status
 if(-Not $authStatus){
     gh auth login
 }
-
-winget install --exact --id Google.Chrome --silent
-winget install --exact --id Mozilla.Firefox --silent
-winget install --exact --id VideoLAN.VLC 
-
-
-winget install --exact --id Rustlang.Rustup 
 
 Write-Output 'Make sure you have this in your VSCode settings.json "terminal.integrated.fontFamily": "MesloLGM Nerd Font"'
