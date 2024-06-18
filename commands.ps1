@@ -10,8 +10,14 @@ winget install --exact --id pnpm.pnpm
 winget install --exact --id Rustlang.Rustup
 
 # git global config
-git config --global user.name  shonya3
-git config --global user.email poeshonya3@gmail.com
+$gitUsername = Read-Host "Git config. Enter Git username" | ForEach-Object { $_.Trim() }
+$gitEmail = Read-Host "Git Config. Enter Git email" | ForEach-Object { $_.Trim() }
+if($gitUsername){
+    git config --global user.name $gitUsername
+}
+if($gitEmail){
+    git config --global user.email $gitEmail
+}
 
 # # github cli auth
 winget install --exact --id GitHub.cli --silent
@@ -26,3 +32,5 @@ winget install --exact --id VideoLAN.VLC
 
 
 winget install --exact --id Rustlang.Rustup 
+
+Write-Output 'Make sure you have this in your VSCode settings.json "terminal.integrated.fontFamily": "MesloLGM Nerd Font"'
