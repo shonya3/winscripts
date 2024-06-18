@@ -12,6 +12,7 @@ winget install --exact --id Mozilla.Firefox --silent
 winget install --exact --id VideoLAN.VLC 
 winget install --exact --id Rustlang.Rustup
 winget install --exact --id qBittorrent.qBittorrent.Beta
+winget install --exact --id RiotGames.LeagueOfLegends.EUW
 
 # git global config
 $gitUsername = Read-Host "Git config. Enter Git username" | ForEach-Object { $_.Trim() }
@@ -29,5 +30,9 @@ $authStatus = gh auth status
 if(-Not $authStatus){
     gh auth login
 }
+
+Set-Location "$env:USERPROFILE\Desktop"
+git clone https://github.com/shonya3/divicards.git
+git clone https://github.com/shonya3/divicards-site.git
 
 Write-Output 'Make sure you have this in your VSCode settings.json "terminal.integrated.fontFamily": "MesloLGM Nerd Font"'
