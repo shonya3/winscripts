@@ -1,3 +1,57 @@
+function Add-MonaspaceFonts {
+    Write-Output "Monaspace fonts installation..."
+    $release = gh api -H "Accept: application/vnd.github+json" /repos/githubnext/monaspace/releases/latest | ConvertFrom-Json 
+    $zip = $release.assets | Where-Object { $_.content_type -eq "application/zip" -and $_.name.StartsWith("monaspace-") } | Select-Object -First 1
+    if(-not $zip){
+        Write-Output "Failed to retrieve latest release files. Download manually https://github.com/githubnext/monaspace/releases/latest"
+        Return
+    }
+    $url = $zip.browser_download_url
+    if(-not $url){
+        Write-Output "Failed to retrieve latest release files. Download manually https://github.com/githubnext/monaspace/releases/latest"
+        Return
+    }
+
+    $downloadDir = Join-Path -Path $env:TEMP -ChildPath "Downloads"
+    $extractDir = Join-Path  -Path $env:TEMP -ChildPath "Extracted"
+
+    New-Item -ItemType Directory -Force -Path $downloadDir | Out-Null
+    New-Item -ItemType Directory -Force -Path $extractDir  | Out-Null
+
+    $zipPath = Join-Path -Path $downloadDir -ChildPath "assets.zip"
+    Invoke-WebRequest -Uri $url -OutFile $zipPath
+    if(-not (Test-Path $zipPath)){
+        Write-Output "Failed to download fonts archive from $url"
+        Return
+    }
+
+    Write-Debug "Asset downloaded successfully to: $zipPath"
+    Expand-Archive -Path $zipPath -DestinationPath $extractDir -Force
+    Remove-Item -Path $downloadDir -Recurse
+    Write-Debug "Asset extracted to: $extractDir"
+    $dir = Get-ChildItem -Path $extractDir | Where-Object { $_.Name.StartsWith("monaspace") } 
+    if(-not $dir){
+        Write-Output "Extracted monaspace dir not found"
+        Return
+    }
+
+    $fontsDir = $dir.FullName |
+            Join-Path -ChildPath "fonts" |
+            Join-Path -ChildPath "otf"
+    Write-Debug "Fonts dir $fontsDir"
+    $files = Get-ChildItem -Path $fontsDir -Filter "*.otf"
+    foreach ($file in $files) {
+        $destination = $env:windir | 
+                        Join-Path -ChildPath "Fonts" |
+                        Join-Path -ChildPath $file.Name
+        Move-Item -Path $file.FullName -Destination $destination -Force
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "$file.BaseName (OpenType)" -Value $fontFile.Name -PropertyType String -Force | Out-Null
+    }
+    Write-Output "Monaspace fonts successfully installed!"
+    Write-Output "Now you can set one of them in VS Code"
+}
+
+Add-MonaspaceFonts
 # configure oh-my-posh
 oh-my-posh font install Meslo
 New-Item -Path $PROFILE -Type File -Force
