@@ -58,9 +58,24 @@ winget install --exact --id pnpm.pnpm
 winget install --exact --id Google.Chrome --silent
 winget install --exact --id Mozilla.Firefox --silent
 winget install --exact --id VideoLAN.VLC 
-winget install --exact --id Rustlang.Rustup
 winget install --exact --id qBittorrent.qBittorrent.Beta
-winget install --exact --id RiotGames.LeagueOfLegends.EUW
+
+
+# Add Git and GitHub CLI to the PATH environment variable
+$gitPath = "C:\Program Files\Git\cmd" 
+$ghPath = "C:\Program Files\GitHub CLI"
+
+function Add-ToPath ($path) {
+    if (-not ([Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine) -contains $path)) {
+        [Environment]::SetEnvironmentVariable("Path", $env:Path + ";" + $path, [EnvironmentVariableTarget]::Machine)
+        # Update the current session's PATH variable
+        $env:Path += ";$path"
+    }
+}
+
+# Update PATH for Git and GitHub CLI
+Add-ToPath $gitPath
+Add-ToPath $ghPath
 
 # git global config
 $gitUsername = Read-Host "Git config. Enter Git username" | ForEach-Object { $_.Trim() }
@@ -86,3 +101,6 @@ Set-Location $desktop
 git clone https://github.com/shonya3/divicards.git
 git clone https://github.com/shonya3/divicards-site.git
 Write-Output 'Make sure you have this in your VSCode settings.json "terminal.integrated.fontFamily": "MesloLGM Nerd Font"' 
+
+winget install --exact --id RiotGames.LeagueOfLegends.EUW
+winget install --exact --id Rustlang.Rustup
