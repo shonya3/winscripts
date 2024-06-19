@@ -51,11 +51,6 @@ function Install-MonaspaceFonts {
     Write-Output "Monaspace Medium fonts installed. If you need other Monaspace fonts, check the folder on your Desktop or delete it."
 }
 
-# configure oh-my-posh
-oh-my-posh font install Meslo
-New-Item -Path $PROFILE -Type File -Force
-Add-Content $PROFILE "oh-my-posh init pwsh | Invoke-Expression"
-
 winget install --exact --id Microsoft.VisualStudioCode.Insiders
 winget install --exact --id OpenJS.NodeJS --silent
 winget install --exact --id Git.Git 

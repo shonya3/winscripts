@@ -46,6 +46,10 @@ function Add-PowershellProfile {
 # Install oh-my-posh and add to env right in the beginning
 winget install --exact --id JanDeDobbeleer.OhMyPosh
 $env:Path += ";C:\Users\user\AppData\Local\Programs\oh-my-posh\bin"
+# configure oh-my-posh
+oh-my-posh font install Meslo
+New-Item -Path $PROFILE -Type File -Force
+Add-Content $PROFILE "oh-my-posh init pwsh | Invoke-Expression"
 
 winget install --exact --id Microsoft.PowerShell.Preview
 Add-PowershellProfile
