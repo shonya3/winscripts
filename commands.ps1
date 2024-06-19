@@ -54,7 +54,7 @@ function Install-MonaspaceFonts {
 winget install --exact --id Microsoft.VisualStudioCode --override '/VERYSILENT /mergetasks="!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath"'
 winget install --exact --id OpenJS.NodeJS --silent
 winget install --exact --id Git.Git 
-winget install --exact --id pnpm.pnpm
+Invoke-WebRequest https://get.pnpm.io/install.ps1 -useb | Invoke-Expression
 winget install --exact --id Google.Chrome --silent
 winget install --exact --id Mozilla.Firefox --silent
 winget install --exact --id VideoLAN.VLC 
