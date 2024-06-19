@@ -62,8 +62,9 @@ winget install --exact --id qBittorrent.qBittorrent.Beta
 
 
 # Add Git and GitHub CLI to the PATH environment variable
-$gitPath = "C:\Program Files\Git\cmd" 
-$ghPath = "C:\Program Files\GitHub CLI"
+$gitPath  = "C:\Program Files\Git\cmd" 
+$ghPath   = "C:\Program Files\GitHub CLI"
+$nodePath = "C:\Program Files\nodejs" 
 
 function Add-ToPath ($path) {
     if (-not ([Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine) -contains $path)) {
@@ -76,6 +77,7 @@ function Add-ToPath ($path) {
 # Update PATH for Git and GitHub CLI
 Add-ToPath $gitPath
 Add-ToPath $ghPath
+Add-ToPath $nodePath
 
 # git global config
 $gitUsername = Read-Host "Git config. Enter Git username" | ForEach-Object { $_.Trim() }
