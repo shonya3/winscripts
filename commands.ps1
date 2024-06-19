@@ -52,6 +52,7 @@ function Install-MonaspaceFonts {
 }
 
 winget install --exact --id Microsoft.VisualStudioCode.Insiders
+winget install --exact --id Microsoft.VisualStudioCode --override '/VERYSILENT /mergetasks="!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath"'
 winget install --exact --id OpenJS.NodeJS --silent
 winget install --exact --id Git.Git 
 winget install --exact --id pnpm.pnpm
