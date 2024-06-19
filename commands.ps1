@@ -1,4 +1,5 @@
-function Add-MonaspaceFonts {
+function Install-MonaspaceFonts {
+    $desktop = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
     Write-Output "Monaspace fonts installation..."
     $release = gh api -H "Accept: application/vnd.github+json" /repos/githubnext/monaspace/releases/latest | ConvertFrom-Json 
     $zip = $release.assets | Where-Object { $_.content_type -eq "application/zip" -and $_.name.StartsWith("monaspace-") } | Select-Object -First 1
@@ -34,21 +35,20 @@ function Add-MonaspaceFonts {
         Write-Output "Extracted monaspace dir not found"
         Return
     }
-
-    $fontsDir = $dir.FullName |
+    $downloadedOtfFontsPath = $dir.FullName |
             Join-Path -ChildPath "fonts" |
             Join-Path -ChildPath "otf"
-    Write-Debug "Fonts dir $fontsDir"
-    $files = Get-ChildItem -Path $fontsDir -Filter "*.otf"
-    foreach ($file in $files) {
-        $destination = $env:windir | 
-                        Join-Path -ChildPath "Fonts" |
-                        Join-Path -ChildPath $file.Name
-        Move-Item -Path $file.FullName -Destination $destination -Force
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "$file.BaseName (OpenType)" -Value $fontFile.Name -PropertyType String -Force | Out-Null
+
+    mkdir "$desktop\Monaspace fonts" -Force | Out-Null
+    Copy-Item "$downloadedOtfFontsPath\*" "$desktop\Monaspace fonts\" -Recurse -Force | Out-Null
+    Write-Debug "Fonts dir $downloadedOtfFontsPath"
+    $systemFontsFolder = (New-Object -ComObject Shell.Application).Namespace(0x14)
+    foreach($file in Get-ChildItem -Path $downloadedOtfFontsPath -Filter "*-Medium.otf") {
+        $name = $file.Name
+        $systemFontsFolder.CopyHere($file.FullName)
+        Write-Output "$name installed"
     }
-    Write-Output "Monaspace fonts successfully installed!"
-    Write-Output "Now you can set one of them in VS Code"
+    Write-Output "Monaspace Medium fonts installed. If you need other Monaspace fonts, check the folder on your Desktop or delete it."
 }
 
 # configure oh-my-posh
@@ -84,7 +84,7 @@ if(-Not $authStatus){
     gh auth login
 }
 
-Add-MonaspaceFonts
+Install-MonaspaceFonts
 
 $desktop = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
 Set-Location $desktop
