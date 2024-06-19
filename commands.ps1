@@ -51,7 +51,6 @@ function Install-MonaspaceFonts {
     Write-Output "Monaspace Medium fonts installed. If you need other Monaspace fonts, check the folder on your Desktop or delete it."
 }
 
-winget install --exact --id Microsoft.VisualStudioCode.Insiders
 winget install --exact --id Microsoft.VisualStudioCode --override '/VERYSILENT /mergetasks="!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath"'
 winget install --exact --id OpenJS.NodeJS --silent
 winget install --exact --id Git.Git 
