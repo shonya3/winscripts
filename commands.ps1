@@ -59,6 +59,7 @@ winget install --exact --id Google.Chrome --silent
 winget install --exact --id Mozilla.Firefox --silent
 winget install --exact --id VideoLAN.VLC 
 winget install --exact --id qBittorrent.qBittorrent.Beta
+winget install --exact --id Oven-sh.Bun
 
 
 # Add Git and GitHub CLI to the PATH environment variable
