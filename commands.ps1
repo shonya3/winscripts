@@ -101,8 +101,6 @@ Install-MonaspaceFonts
 
 $desktop = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
 Set-Location $desktop
-git clone https://github.com/shonya3/divicards.git
-git clone https://github.com/shonya3/divicards-site.git
 Write-Output 'Make sure you have this in your VSCode settings.json "terminal.integrated.fontFamily": "MesloLGM Nerd Font"' 
 
 winget install --exact --id RiotGames.LeagueOfLegends.EUW
