@@ -43,6 +43,8 @@ function Add-PowershellProfile {
     Write-Host "New PowerShell Preview profile added to Windows Terminal settings."
 }
 
+Add-AppPackage -path "https://cdn.winget.microsoft.com/cache/source.msix"
+
 # Install oh-my-posh and add to env right in the beginning
 winget install --exact --id JanDeDobbeleer.OhMyPosh
 $env:Path += ";C:\Users\user\AppData\Local\Programs\oh-my-posh\bin"
